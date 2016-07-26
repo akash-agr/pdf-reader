@@ -52,10 +52,9 @@ function renderujStranu(pdfStrana) {
   mesto_za_tekst.offsetTop = platno.offsetTop;
   mesto_za_tekst.offsetLeft = platno.offsetLeft;
 
-  pdfStrana.getTextContent().then(function (textContent) {
-    console.log(textContent);
+  pdfStrana.getTextContent().then(function renderujTekstualniSadrzaj(tekstualniSadrzaj) {
     var tekst_lejer = new TextLayerBuilder(mesto_za_tekst, pdfStrana.number - 1); // broji od nule
-    tekst_lejer.setTextContent(textContent);
+    tekst_lejer.setTextContent(tekstualniSadrzaj);
 
     var render_podloga = {
       canvasContext: podloga,
