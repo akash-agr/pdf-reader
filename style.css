@@ -1,0 +1,62 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.pdf-content {
+  border: 1px solid #000000;
+}
+
+
+/* highlited selected blue */
+
+::selection {
+  background: rgba(0, 0, 255, 0.3);
+}
+
+::-moz-selection {
+  background: rgba(0, 0, 255, 0.3);
+}
+
+#mesto_za_tekst {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  color: #000;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+#mesto_za_tekst> div {
+  color: transparent;
+  position: absolute;
+  line-height: 1;
+  white-space: pre;
+  cursor: text;
+}
+
+#mesto_za_tekst .highlight {
+  margin: -1px;
+  padding: 1px;
+  background-color: rgba(180, 0, 170, 0.2);
+  border-radius: 4px;
+}
+
+#mesto_za_tekst .highlight.begin {
+  border-radius: 4px 0px 0px 4px;
+}
+
+#mesto_za_tekst .highlight.end {
+  border-radius: 0px 4px 4px 0px;
+}
+
+#mesto_za_tekst .highlight.middle {
+  border-radius: 0px;
+}
+
+#mesto_za_tekst .highlight.selected {
+  background-color: rgba(0, 100, 0, 0.2);
+}

@@ -1,0 +1,29 @@
+<!doctype HTML>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PDF.js reader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <h1>PDF.js reader</h1>
+
+  <div>
+    <button class="js-idi-nazad">Prethodna</button>
+    <button class="js-idi-napred">Naredna</button>
+    <span> Strana: <span id="trenutna_strana"></span> / <span id="ukupno_strana"></span></span>
+  </div>
+  <div class="okvir-platna">
+    <canvas id='platno' class='crna-ivica'></canvas>
+  </div>
+  <div>
+    <button class="js-idi-nazad">Prethodna</button>
+    <button class="js-idi-napred">Naredna</button>
+  </div>
+
+  <script src="http://vivin.net/pub/pdfjs/pdf.js"></script>
+  <script src="izvor.js"></script>
+
+</body>
