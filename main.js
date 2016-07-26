@@ -1,3 +1,5 @@
+var pdfBase64 = 'JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwogIC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAvTWVkaWFCb3ggWyAwIDAgMjAwIDIwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0KPj4KZW5kb2JqCgozIDAgb2JqCjw8CiAgL1R5cGUgL1BhZ2UKICAvUGFyZW50IDIgMCBSCiAgL1Jlc291cmNlcyA8PAogICAgL0ZvbnQgPDwKICAgICAgL0YxIDQgMCBSIAogICAgPj4KICA+PgogIC9Db250ZW50cyA1IDAgUgo+PgplbmRvYmoKCjQgMCBvYmoKPDwKICAvVHlwZSAvRm9udAogIC9TdWJ0eXBlIC9UeXBlMQogIC9CYXNlRm9udCAvVGltZXMtUm9tYW4KPj4KZW5kb2JqCgo1IDAgb2JqICAlIHBhZ2UgY29udGVudAo8PAogIC9MZW5ndGggNDQKPj4Kc3RyZWFtCkJUCjcwIDUwIFRECi9GMSAxMiBUZgooSGVsbG8sIHdvcmxkISkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagoKeHJlZgowIDYKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDEwIDAwMDAwIG4gCjAwMDAwMDAwNzkgMDAwMDAgbiAKMDAwMDAwMDE3MyAwMDAwMCBuIAowMDAwMDAwMzAxIDAwMDAwIG4gCjAwMDAwMDAzODAgMDAwMDAgbiAKdHJhaWxlcgo8PAogIC9TaXplIDYKICAvUm9vdCAxIDAgUgo+PgpzdGFydHhyZWYKNDkyCiUlRU9G';
+
 var zoom = 1;
 var brojStrane = 1;
 var fajl_url = 'ctut.pdf';
@@ -9,17 +11,29 @@ window.addEventListener('load', function () {
   platno = document.getElementById("platno");
   podloga = platno.getContext("2d");
   mesto_za_tekst = document.getElementById("mesto_za_tekst");
-  ucitajPdf(fajl_url);
+
+  var pdfUint8Array = prevedi_base64_u_uint8Array(pdfBase64);
+  ucitajPdf(pdfUint8Array);
 });
 
 document.addEventListener('click', function (e) {
   var element = e.target;
+
   if (element.classList.contains('js-idi-nazad')) idiNazad();
   if (element.classList.contains('js-idi-napred')) idiNapred();
 }); // on click
 
 
 /* FUNKCIJE */
+
+function prevedi_base64_u_uint8Array(base64) {
+  var sirovo = atob(base64); // prirodna funkcija koja dekodira base64
+  var uint8Array = new Uint8Array(new ArrayBuffer(sirovo.length));
+  for (var i = 0; i < sirovo.length; i++) {
+    uint8Array[i] = sirovo.charCodeAt(i);
+  }
+  return uint8Array;
+}
 
 function ucitajPdf(fajl_url) {
   PDFJS.disableWorker = true; // gasi workere zbog cross-origin greške
@@ -39,6 +53,7 @@ function renderujStranu(pdfStrana) {
   mesto_za_tekst.offsetLeft = platno.offsetLeft;
 
   pdfStrana.getTextContent().then(function (textContent) {
+    console.log(textContent);
     var tekst_lejer = new TextLayerBuilder(mesto_za_tekst, pdfStrana.number - 1); // broji od nule
     tekst_lejer.setTextContent(textContent);
 

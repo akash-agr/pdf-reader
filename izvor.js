@@ -18,11 +18,13 @@ window.addEventListener('load', function () {
   podloga = platno.getContext('2d');
   podloga.font = "bold 16px Arial";
   podloga.fillText("Dokument se učitava...", platno.width / 2 - 100, 100);
+
   ucitajPDF(fajl_url);
 }); // on load
 
 document.addEventListener('click', function (e) {
   var element = e.target;
+
   if (element.classList.contains('js-idi-nazad')) idiNazad();
   if (element.classList.contains('js-idi-napred')) idiNapred();
 }); // on click
