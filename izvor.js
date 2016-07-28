@@ -24,7 +24,6 @@ window.addEventListener('load', function () {
 
 document.addEventListener('click', function (e) {
   var element = e.target;
-
   if (element.classList.contains('js-idi-nazad')) idiNazad();
   if (element.classList.contains('js-idi-napred')) idiNapred();
 }); // on click
@@ -33,15 +32,14 @@ document.addEventListener('click', function (e) {
 
 function ucitajPDF(fajl_url) {
   PDFJS.disableWorker = true; // disable workers to avoid cross-origin issue
-  // asinhrono downloaduje PDF kao ArrayBuffer
-  PDFJS.getDocument(fajl_url).then(function (_pdfDoc) {
-    ovajDokument = _pdfDoc;
+  PDFJS.getDocument(fajl_url).then(function (pdf) {
+    ovajDokument = pdf;
     if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages;
-    renderujStranu();
+    renderujStranu(brojStrane);
   });
 }
 
-function renderujStranu() {
+function renderujStranu(brojStrane) {
   // koristi promise da fetchuje stranu
   ovajDokument.getPage(brojStrane).then(function (pdfStrana) {
     // prilagodjava se raspoloživoj širini

@@ -13,7 +13,7 @@ window.addEventListener('load', function () {
   mesto_za_tekst = document.getElementById("mesto_za_tekst");
 
   var pdfUint8Array = prevedi_base64_u_uint8Array(pdfBase64);
-  ucitajPdf(pdfUint8Array);
+  ucitajPdf(fajl_url);
 });
 
 document.addEventListener('click', function (e) {
