@@ -1,31 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>PDF.js</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>PDF.js page viewer using built components</title>
+  <link rel="stylesheet" href="libs/pdfjs/pdf_viewer.css">
 </head>
 
 <body>
+  <div id="pdf-drzac" class="pdfViewer"></div>
 
-  <!--  Parts of viewer.js are extracted into a separate file which contains the minimum required for text selection. The key component is TextLayerBuilder object that handles the creation of text-selection divs. The CSS is also very important. It sets up text overlays that you actually end up selecting. -->
-
-  <script src="http://vivin.net/pub/pdfjs/pdf.js"></script>
-  <script src="http://vivin.net/pub/pdfjs/textlayerbuilder.js"></script>
-
-  <!-- dugmici poremete text lejer -->
-  <!-- <button class="js-idi-nazad">Prethodna</button>
-  <button class="js-idi-napred">Naredna</button> -->
-  <div id="pdfContainer" class="pdf-content">
-    <canvas id="platno"></canvas>
-    <div id="mesto_za_tekst" class="textLayer"></div>
-  </div>
-  <button class="js-idi-nazad">Prethodna</button>
-  <button class="js-idi-napred">Naredna</button>
-
+  <script src="libs/pdfjs/pdf.js"></script>
+  <script src="libs/pdfjs/pdf_viewer.js"></script>
   <script src="main.js"></script>
-
 </body>
 
 </html>
