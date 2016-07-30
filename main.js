@@ -18,7 +18,7 @@ function ucitajPDF(fajl_url) {
         scale: zoom,
         defaultViewport: pdfStrana.getViewport(zoom),
         textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
-        annotationLayerFactory: new PDFJS.DefaultAnnotationLayerFactory()
+        // annotationLayerFactory: new PDFJS.DefaultAnnotationLayerFactory()
       };
       var pdfPrikaz = new PDFJS.PDFPageView(renderOpcije);
       pdfPrikaz.setPdfPage(pdfStrana);
