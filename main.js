@@ -13,7 +13,7 @@ window.addEventListener('load', function () {
   mesto_za_tekst = document.getElementById("mesto_za_tekst");
 
   var pdfUint8Array = prevedi_base64_u_uint8Array(pdfBase64);
-  ucitajPdf(fajl_url);
+  ucitajPdf(pdfUint8Array);
 });
 
 document.addEventListener('click', function (e) {
@@ -34,9 +34,9 @@ function prevedi_base64_u_uint8Array(base64) {
   return uint8Array;
 }
 
-function ucitajPdf(fajl_url) {
+function ucitajPdf(fajl) {
   PDFJS.disableWorker = true; // gasi workere zbog cross-origin greške
-  PDFJS.getDocument(fajl_url).then(function (pdf) {
+  PDFJS.getDocument(fajl).then(function (pdf) {
     ovajDokument = pdf;
     renderujStranu();
   });
@@ -47,16 +47,11 @@ function renderujStranu() {
     var vidno_polje = pdfStrana.getViewport(zoom); // namesta platno na velicinu vidnog polja
     platno.height = vidno_polje.height;
     platno.width = vidno_polje.width;
+    pozicionirajText(vidno_polje);
 
-    mesto_za_tekst.style.height = vidno_polje.height + "px";
-    mesto_za_tekst.style.width = vidno_polje.width + "px";
-    mesto_za_tekst.offsetTop = platno.offsetTop;
-    mesto_za_tekst.offsetLeft = platno.offsetLeft;
-
-    pdfStrana.getTextContent().then(function renderujTekst(tekstualniSadrzaj) {
+    pdfStrana.getTextContent().then(function(tekstualniSadrzaj) {
       var tekst_lejer = new TextLayerBuilder(mesto_za_tekst, pdfStrana.number - 1); // broji od nule
       tekst_lejer.setTextContent(tekstualniSadrzaj);
-
       var renderOpcije = {
         canvasContext: podloga,
         viewport: vidno_polje,
@@ -65,6 +60,13 @@ function renderujStranu() {
       pdfStrana.render(renderOpcije);
     });
   });
+}
+
+function pozicionirajText(vidno_polje) {
+  mesto_za_tekst.style.height = vidno_polje.height + "px";
+  mesto_za_tekst.style.width = vidno_polje.width + "px";
+  mesto_za_tekst.offsetTop = platno.offsetTop;
+  mesto_za_tekst.offsetLeft = platno.offsetLeft;
 }
 
 function idiNazad() {

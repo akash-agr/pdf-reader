@@ -40,8 +40,6 @@ function ucitajPDF(fajl_url) {
 }
 
 function renderujStranu() {
-  $('#trenutna_strana').textContent = brojStrane;
-  $('#ukupno_strana').textContent = ovajDokument.numPages;
   ovajDokument.getPage(brojStrane).then(function (pdfStrana) {
     var roditeljskaSirina = platno.parentElement.offsetWidth;
     var vidno_polje = pdfStrana.getViewport (roditeljskaSirina / pdfStrana.getViewport(zoom).width);
@@ -55,16 +53,23 @@ function renderujStranu() {
   });
 }
 
+function azurirajBrojStrane() {
+  $('#trenutna_strana').textContent = brojStrane;
+  $('#ukupno_strana').textContent = ovajDokument.numPages;
+}
+
 function idiNazad() {
   if (brojStrane <= 1) return;
   brojStrane--;
   renderujStranu(brojStrane);
+  azurirajBrojStrane();
 }
 
 function idiNapred() {
   if (brojStrane >= ovajDokument.numPages) return;
   brojStrane++;
   renderujStranu(brojStrane);
+  azurirajBrojStrane();
 }
 
 function isprazniTag() {
