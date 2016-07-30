@@ -35,27 +35,24 @@ function ucitajPDF(fajl_url) {
   PDFJS.getDocument(fajl_url).then(function (pdf) {
     ovajDokument = pdf;
     if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages;
-    renderujStranu(brojStrane);
+    renderujStranu();
   });
 }
 
-function renderujStranu(brojStrane) {
-  // koristi promise da fetchuje stranu
-  ovajDokument.getPage(brojStrane).then(function (pdfStrana) {
-    // prilagodjava se raspoloživoj širini
-    var roditeljskaSirina = platno.parentElement.offsetWidth;
-    var viewport = pdfStrana.getViewport(roditeljskaSirina / pdfStrana.getViewport(zoom).width);
-    platno.height = viewport.height;
-    platno.width = viewport.width;
-    // renderuje PDF stranu na platno
-    var renderContext = {
-      canvasContext: podloga,
-      viewport: viewport
-    };
-    pdfStrana.render(renderContext);
-  });
+function renderujStranu() {
   $('#trenutna_strana').textContent = brojStrane;
   $('#ukupno_strana').textContent = ovajDokument.numPages;
+  ovajDokument.getPage(brojStrane).then(function (pdfStrana) {
+    var roditeljskaSirina = platno.parentElement.offsetWidth;
+    var vidno_polje = pdfStrana.getViewport (roditeljskaSirina / pdfStrana.getViewport(zoom).width);
+    platno.height = vidno_polje.height;
+    platno.width = vidno_polje.width;
+    var renderOpcije = {
+      canvasContext: podloga,
+      viewport: vidno_polje
+    };
+    pdfStrana.render(renderOpcije);
+  });
 }
 
 function idiNazad() {

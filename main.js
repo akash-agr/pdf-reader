@@ -18,7 +18,6 @@ window.addEventListener('load', function () {
 
 document.addEventListener('click', function (e) {
   var element = e.target;
-
   if (element.classList.contains('js-idi-nazad')) idiNazad();
   if (element.classList.contains('js-idi-napred')) idiNapred();
 }); // on click
@@ -37,31 +36,34 @@ function prevedi_base64_u_uint8Array(base64) {
 
 function ucitajPdf(fajl_url) {
   PDFJS.disableWorker = true; // gasi workere zbog cross-origin greške
-  PDFJS.getDocument(fajl_url).then(function renderujPdf(pdf) {
-    pdf.getPage(brojStrane).then(renderujStranu);
+  PDFJS.getDocument(fajl_url).then(function (pdf) {
+    ovajDokument = pdf;
+    renderujStranu();
   });
 }
 
-function renderujStranu(pdfStrana) {
-  var vidno_polje = pdfStrana.getViewport(zoom); // namesta platno na velicinu vidnog polja
-  platno.height = vidno_polje.height;
-  platno.width = vidno_polje.width;
+function renderujStranu() {
+  ovajDokument.getPage(brojStrane).then(function (pdfStrana) {
+    var vidno_polje = pdfStrana.getViewport(zoom); // namesta platno na velicinu vidnog polja
+    platno.height = vidno_polje.height;
+    platno.width = vidno_polje.width;
 
-  mesto_za_tekst.style.height = vidno_polje.height + "px";
-  mesto_za_tekst.style.width = vidno_polje.width + "px";
-  mesto_za_tekst.offsetTop = platno.offsetTop;
-  mesto_za_tekst.offsetLeft = platno.offsetLeft;
+    mesto_za_tekst.style.height = vidno_polje.height + "px";
+    mesto_za_tekst.style.width = vidno_polje.width + "px";
+    mesto_za_tekst.offsetTop = platno.offsetTop;
+    mesto_za_tekst.offsetLeft = platno.offsetLeft;
 
-  pdfStrana.getTextContent().then(function renderujTekstualniSadrzaj(tekstualniSadrzaj) {
-    var tekst_lejer = new TextLayerBuilder(mesto_za_tekst, pdfStrana.number - 1); // broji od nule
-    tekst_lejer.setTextContent(tekstualniSadrzaj);
+    pdfStrana.getTextContent().then(function renderujTekst(tekstualniSadrzaj) {
+      var tekst_lejer = new TextLayerBuilder(mesto_za_tekst, pdfStrana.number - 1); // broji od nule
+      tekst_lejer.setTextContent(tekstualniSadrzaj);
 
-    var render_podloga = {
-      canvasContext: podloga,
-      viewport: vidno_polje,
-      textLayer: tekst_lejer
-    };
-    pdfStrana.render(render_podloga);
+      var renderOpcije = {
+        canvasContext: podloga,
+        viewport: vidno_polje,
+        textLayer: tekst_lejer
+      };
+      pdfStrana.render(renderOpcije);
+    });
   });
 }
 
