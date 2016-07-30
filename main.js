@@ -27,8 +27,7 @@ function ucitajPDF(fajl_url) {
 }
 
 function renderujStranu() {
-  ukloniPrethodneStrane();
-
+  brisiPrethodneStrane();
   ovajDokument.getPage(brojStrane).then(function(pdfStrana) {
     var renderOpcije = {
       container: drzac,
@@ -43,10 +42,10 @@ function renderujStranu() {
   });
 }
 
-function ukloniPrethodneStrane() {
-  var pages = document.querySelectorAll('.page');
-  for (var i = 0; i < pages.length; i++) {
-    pages[i].remove();
+function brisiPrethodneStrane() {
+  var strane = document.querySelectorAll('.page');
+  for (var i = 0; i < strane.length; i++) {
+    strane[i].remove();
   }
 }
 
@@ -57,7 +56,7 @@ function idiNazad() {
 }
 
 function idiNapred() {
-  // if (brojStrane >= ovajDokument.numPages) return;
+  if (brojStrane >= ovajDokument.numPages) return;
   brojStrane++;
   renderujStranu();
 }
