@@ -22,6 +22,7 @@ document.addEventListener('click', function (e) {
 function ucitajPDF(fajl_url) {
   PDFJS.getDocument(fajl_url).then(function(pdf) {
     ovajDokument = pdf;
+    if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages;
     renderujStranu();
   });
 }
@@ -56,7 +57,7 @@ function idiNazad() {
 }
 
 function idiNapred() {
-  if (brojStrane >= ovajDokument.numPages) return;
+  if (brojStrane > ovajDokument.numPages) return;
   brojStrane++;
   renderujStranu();
 }
