@@ -2,7 +2,7 @@
 
 var zum = 1;
 var brojStrane = 1;
-var fajl_url = '4_1_5.pdf';
+var fajl_url = '4_1_5.pdf#page=86';
 
 var id = null;
 var vrsta = null;
@@ -13,6 +13,8 @@ var ovajDokument = null;
 
 window.addEventListener('load', function () {
   drzac = document.getElementById('pdf-drzac');
+  brojStrane = Number($('#broj_strane').value);
+  // fajl_url = $('#fajl_url').value;
   ucitajPDF(fajl_url);
 });
 
@@ -26,10 +28,12 @@ document.addEventListener('click', function (e) {
 
 /*** FUNKCIJE ***/
 
-function ucitajPDF(fajl_url) {
+function ucitajPDF() {
   PDFJS.getDocument(fajl_url).then(function (pdf) {
     ovajDokument = pdf;
     renderujStranu();
+  }, function (reason) {
+    console.log(reason);
   });
 }
 
@@ -56,6 +60,10 @@ function azurirajStanje() {
   brisiPrethodneStrane();
 }
 
+function proverBrojStrane() {
+  if (brojStrane < 1) brojStrane = 1;
+  if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages;
+}
 function azurirajPolja() {
   $('#trenutna_strana').textContent = brojStrane;
   $('#ukupno_strana').textContent = ovajDokument.numPages;
@@ -67,11 +75,6 @@ function brisiPrethodneStrane() {
   for (var i = 0; i < strane.length; i++) {
     strane[i].remove();
   }
-}
-
-function proverBrojStrane() {
-  if (brojStrane < 1) brojStrane = 1;
-  if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages;
 }
 
 function okreniStranu(broj) {
@@ -87,6 +90,7 @@ function zumiraj(broj) {
 function isprazniTag() {
   $('#tag').value = "";
 }
+
 
 function $(selektor) {
   return document.querySelector(selektor);
