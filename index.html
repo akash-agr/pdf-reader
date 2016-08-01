@@ -4,19 +4,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>PDF.js page viewer using built components</title>
+  <title>PDF reader</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div>
-    <button class="js-idi-nazad">Prethodna</button>
-    <button class="js-idi-napred">Naredna</button>
+    <button class="js-idi-nazad"><</button>
+    <button class="js-idi-napred">></button>
+    <span> strana: <span id="trenutna_strana">0</span> / <span id="ukupno_strana">0</span></span>
+    <button class="js-odzum">-</button>
+    <button class="js-zum">+</button>
+    <span>zum: <span id="zum">1</span></span>
   </div>
   <div id="pdf-drzac" class="pdfViewer"></div>
   <div>
-    <button class="js-idi-nazad">Prethodna</button>
-    <button class="js-idi-napred">Naredna</button>
+    <button class="js-idi-nazad"><</button>
+    <button class="js-idi-napred">></button>
   </div>
 
   <script src="libs/pdfjs/pdf.js"></script>
