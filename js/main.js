@@ -8,7 +8,7 @@ var ovajDokument = null;
 PDFJS.workerSrc = 'libs/pdfjs/pdf.worker.js';
 PDFJS.disableWorker = true;
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
   drzac = document.getElementById('pdf-drzac');
   ucitajPDF(fajl_url);
 });
@@ -23,27 +23,29 @@ document.addEventListener('click', function (e) {
 
 
 function ucitajPDF(fajl_url) {
-  PDFJS.getDocument(fajl_url).then(function(pdf) {
-    ovajDokument = pdf;
-    if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages;
-    renderujStranu();
-  });
+  PDFJS.getDocument(fajl_url)
+    .then(function (pdf) {
+      ovajDokument = pdf;
+      if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages;
+      renderujStranu();
+    });
 }
 
 function renderujStranu() {
   azurirajStanje();
-  ovajDokument.getPage(brojStrane).then(function(pdfStrana) {
-    var renderOpcije = {
-      container: drzac,
-      id: brojStrane,
-      scale: zum,
-      defaultViewport: pdfStrana.getViewport(zum),
-      textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
-    };
-    var pdfPrikaz = new PDFJS.PDFPageView(renderOpcije);
-    pdfPrikaz.setPdfPage(pdfStrana);
-    pdfPrikaz.draw();
-  });
+  ovajDokument.getPage(brojStrane)
+    .then(function (pdfStrana) {
+      var renderOpcije = {
+        container: drzac,
+        id: brojStrane,
+        scale: zum,
+        defaultViewport: pdfStrana.getViewport(zum),
+        textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
+      };
+      var pdfPrikaz = new PDFJS.PDFPageView(renderOpcije);
+      pdfPrikaz.setPdfPage(pdfStrana);
+      pdfPrikaz.draw();
+    });
 }
 
 function azurirajStanje() {

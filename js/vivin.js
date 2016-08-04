@@ -23,30 +23,32 @@ document.addEventListener('click', function (e) {
 
 function ucitajPdf(fajl) {
   PDFJS.disableWorker = true; // gasi workere zbog cross-origin greške
-  PDFJS.getDocument(fajl).then(function (pdf) {
-    ovajDokument = pdf;
-    renderujStranu();
-  });
+  PDFJS.getDocument(fajl)
+    .then(function (pdf) {
+      ovajDokument = pdf;
+      renderujStranu();
+    });
 }
 
 function renderujStranu() {
-  ovajDokument.getPage(brojStrane).then(function (pdfStrana) {
-    var vidno_polje = pdfStrana.getViewport(zoom); // namesta platno na velicinu vidnog polja
-    platno.height = vidno_polje.height;
-    platno.width = vidno_polje.width;
-    pozicionirajText(vidno_polje);
+  ovajDokument.getPage(brojStrane)
+    .then(function (pdfStrana) {
+      var vidno_polje = pdfStrana.getViewport(zoom); // namesta platno na velicinu vidnog polja
+      platno.height = vidno_polje.height;
+      platno.width = vidno_polje.width;
+      pozicionirajText(vidno_polje);
 
-    pdfStrana.getTextContent().then(function(tekstualniSadrzaj) {
-      var tekst_lejer = new TextLayerBuilder(mesto_za_tekst, pdfStrana.number - 1); // broji od nule
-      tekst_lejer.setTextContent(tekstualniSadrzaj);
-      var renderOpcije = {
-        canvasContext: podloga,
-        viewport: vidno_polje,
-        textLayer: tekst_lejer
-      };
-      pdfStrana.render(renderOpcije);
+      pdfStrana.getTextContent().then(function (tekstualniSadrzaj) {
+        var tekst_lejer = new TextLayerBuilder(mesto_za_tekst, pdfStrana.number - 1); // broji od nule
+        tekst_lejer.setTextContent(tekstualniSadrzaj);
+        var renderOpcije = {
+          canvasContext: podloga,
+          viewport: vidno_polje,
+          textLayer: tekst_lejer
+        };
+        pdfStrana.render(renderOpcije);
+      });
     });
-  });
 }
 
 function pozicionirajText(vidno_polje) {
