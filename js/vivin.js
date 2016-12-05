@@ -1,6 +1,6 @@
 var zoom = 1;
 var brojStrane = 1;
-var fajl_url = '4_1_5.pdf';
+var fajl_url = 'draza.pdf';
 var platno = null;
 var podloga = null;
 var mesto_za_tekst = null;

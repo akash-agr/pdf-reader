@@ -1,6 +1,6 @@
 var zum = 1.0;
 var brojStrane = 1;
-var fajl_url = '4_1_5.pdf';
+var fajl_url = 'draza.pdf';
 
 var drzac = null;
 var ovajDokument = null;
