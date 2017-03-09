@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>PDF reader</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div>
+    <button class="js-idi-nazad"><</button>
+    <button class="js-idi-napred">></button>
+    <span> strana: <span id="trenutna_strana">0</span> / <span id="ukupno_strana">0</span></span>
+    <button class="js-odzum">-</button>
+    <button class="js-zum">+</button>
+    <span>zum: <span id="zum">1</span></span>
+  </div>
+  
+  <div id="pdf-drzac" class="pdfViewer"></div>
+
+  <div>
+    <button class="js-idi-nazad"><</button>
+    <button class="js-idi-napred">></button>
+  </div>
+
+  <script src="libs/pdfjs/pdf.js"></script>
+  <script src="libs/pdfjs/pdf_viewer.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
