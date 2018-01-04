@@ -41,16 +41,16 @@ function azurirajStanje() {
 function renderujStranu() {
   azurirajStanje()
   dokument.getPage(brojStrane)
-    .then(function(pdfStrana) {
-      const renderOpcije = {
+    .then(function(strana) {
+      const params = {
         container: drzac,
         id: brojStrane,
         scale: zum,
-        defaultViewport: pdfStrana.getViewport(zum),  // namesta platno na velicinu vidnog polja
+        defaultViewport: strana.getViewport(zum),
         textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
       }
-      const pdfJs = new PDFJS.PDFPageView(renderOpcije)
-      pdfJs.setPdfPage(pdfStrana)
+      const pdfJs = new PDFJS.PDFPageView(params)
+      pdfJs.setPdfPage(strana)
       pdfJs.draw()
     })
 }
