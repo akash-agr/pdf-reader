@@ -1,24 +1,22 @@
 /* global PDFJS */
 
+const $ = selektor => document.querySelector(selektor)
+
+const fajl_url = 'game-programming.pdf'
+const drzac = document.getElementById('pdf-drzac')
+
 let zum = 1.0
 let brojStrane = 1
-const fajl_url = 'game-programming.pdf'
-
-let drzac = null
-let ovajDokument = null
+let dokument = null
 
 PDFJS.workerSrc = 'libs/pdfjs/pdf.worker.js'
 PDFJS.disableWorker = true // gasi workere zbog cross-origin greške
 
 /** FUNCTIONS **/
 
-function $(selektor) {
-  return document.querySelector(selektor)
-}
-
 function proverBrojStrane() {
   if (brojStrane < 1) brojStrane = 1
-  if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages
+  if (brojStrane > dokument.numPages) brojStrane = dokument.numPages
 }
 
 function brisiPrethodneStrane() {
@@ -30,7 +28,7 @@ function brisiPrethodneStrane() {
 
 function azurirajPolja() {
   $('#trenutna_strana').textContent = brojStrane
-  $('#ukupno_strana').textContent = ovajDokument.numPages
+  $('#ukupno_strana').textContent = dokument.numPages
   $('#zum').textContent = zum.toFixed(1)
 }
 
@@ -42,7 +40,7 @@ function azurirajStanje() {
 
 function renderujStranu() {
   azurirajStanje()
-  ovajDokument.getPage(brojStrane)
+  dokument.getPage(brojStrane)
     .then(function(pdfStrana) {
       const renderOpcije = {
         container: drzac,
@@ -51,17 +49,17 @@ function renderujStranu() {
         defaultViewport: pdfStrana.getViewport(zum),  // namesta platno na velicinu vidnog polja
         textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
       }
-      const pdfPrikaz = new PDFJS.PDFPageView(renderOpcije)
-      pdfPrikaz.setPdfPage(pdfStrana)
-      pdfPrikaz.draw()
+      const pdfJs = new PDFJS.PDFPageView(renderOpcije)
+      pdfJs.setPdfPage(pdfStrana)
+      pdfJs.draw()
     })
 }
 
 function ucitajPDF(fajl_url) {
   PDFJS.getDocument(fajl_url)
     .then(function(pdf) {
-      ovajDokument = pdf
-      if (brojStrane > ovajDokument.numPages) brojStrane = ovajDokument.numPages
+      if (brojStrane > pdf.numPages) brojStrane = pdf.numPages
+      dokument = pdf
       renderujStranu()
     })
 }
@@ -76,12 +74,11 @@ function zumiraj(broj) {
   renderujStranu()
 }
 
-/** EVENTS **/
+/** INIT **/
 
-window.addEventListener('load', function() {
-  drzac = document.getElementById('pdf-drzac')
-  ucitajPDF(fajl_url)
-})
+ucitajPDF(fajl_url)
+
+/** EVENTS **/
 
 document.addEventListener('click', function(e) {
   const element = e.target
